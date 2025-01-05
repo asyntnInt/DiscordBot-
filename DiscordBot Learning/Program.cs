@@ -2,6 +2,9 @@
 using DiscordBot_Learning.Config;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.CommandsNext.Exceptions;
+using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using System;
@@ -51,16 +54,44 @@ namespace DiscordBot_Learning
 
             Commands = Client.UseCommandsNext( commandsconfig );
 
+            Commands.CommandErrored += CommandEventHandler;
+
+            // Registering commands
+
             Commands.RegisterCommands<testCommands>();
 
             await Client.ConnectAsync();
             await Task.Delay(-1);
         }
 
+        private static async Task CommandEventHandler(CommandsNextExtension sender, CommandErrorEventArgs e)
+        {
+            if (e.Exception is ChecksFailedException exception)
+            {
+                string timeLeft = string.Empty;
+                foreach (var check in exception.FailedChecks)
+                {
+                    var coolDown = (CooldownAttribute)check;
+                    timeLeft = coolDown.GetRemainingCooldown(e.Context).ToString(@"hh\ :mm\ :ss");
+                }
+
+                var coolDownMessage = new DiscordEmbedBuilder
+                {
+                    Title = "Cooldown until command is available",
+                    Description = $"You are on cooldown for this command. Please wait {timeLeft} before using this command again",
+                    Color = DiscordColor.Red
+                };
+
+                //e.Context.RespondAsync(embed: coolDownMessage); //This will not work
+                await e.Context.Channel.SendMessageAsync(embed: coolDownMessage); //This will work
+
+            }
+        }
+
         private static async Task VoiceChannelHandler(DiscordClient sender, DSharpPlus.EventArgs.VoiceStateUpdateEventArgs e)
         {
             if (e.Before == null && e.Channel.Name == "Create")
-        {
+            {
                 await e.Channel.SendMessageAsync($"{e.User.Mention} has joined the Voice chat");
             }
         }
