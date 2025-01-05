@@ -52,7 +52,7 @@ namespace DiscordBot_Learning
                 EnableDefaultHelp = false
             };
 
-            Commands = Client.UseCommandsNext( commandsconfig );
+            Commands = Client.UseCommandsNext(commandsconfig);
 
             Commands.CommandErrored += CommandEventHandler;
 
@@ -72,7 +72,7 @@ namespace DiscordBot_Learning
                 foreach (var check in exception.FailedChecks)
                 {
                     var coolDown = (CooldownAttribute)check;
-                    timeLeft = coolDown.GetRemainingCooldown(e.Context).ToString(@"hh\ :mm\ :ss");
+                    timeLeft = coolDown.GetRemainingCooldown(e.Context).ToString(@"hh\:mm\:ss");
                 }
 
                 var coolDownMessage = new DiscordEmbedBuilder

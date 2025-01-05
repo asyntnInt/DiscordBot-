@@ -131,7 +131,7 @@ namespace DiscordBot_Learning.Commands
         }
 
         [Command("poll")]
-        [Cooldown(1, 10, CooldownBucketType.Channel)] //10 seconds cooldown per channel after 1 use
+        [Cooldown(1, 60, CooldownBucketType.Channel)] //60 seconds cooldown per channel after 1 use
         public async Task Poll(CommandContext ctx, string option1, string option2, string option3, string option4, [RemainingText] string pollTitle)
         {
             await ctx.Message.DeleteAsync(); //deletes the command message for a cleaner look
@@ -193,7 +193,7 @@ namespace DiscordBot_Learning.Commands
         }
 
         [Command("cooldown")]
-        [Cooldown(5, 10, CooldownBucketType.User)] //10 seconds cooldown per user after 5 uses
+        [Cooldown(1, 20, CooldownBucketType.User)] //x seconds cooldown per user after y uses
         public async Task Cooldown(CommandContext ctx)
         {
             await ctx.Channel.SendMessageAsync("Cooldown test");
