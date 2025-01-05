@@ -40,7 +40,7 @@ namespace DiscordBot_Learning
             });
 
             Client.Ready += Client_Ready;
-            Client.MessageCreated += MessageCreatedHandler;
+            //Client.MessageCreated += MessageCreatedHandler;
             Client.VoiceStateUpdated += VoiceChannelHandler;
 
 
@@ -96,10 +96,10 @@ namespace DiscordBot_Learning
             }
         }
 
-        private static async Task MessageCreatedHandler(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs e)
+        /*private static async Task MessageCreatedHandler(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs e)
         {
             await e.Channel.SendMessageAsync("Event handler was triggered");
-        }
+        }*/
 
         private static Task Client_Ready(DiscordClient sender, DSharpPlus.EventArgs.ReadyEventArgs e)
         {
