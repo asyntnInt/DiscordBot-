@@ -190,5 +190,12 @@ namespace DiscordBot_Learning.Commands
 
             await ctx.Channel.SendMessageAsync(embed: finalEmbed);
         }
+
+        [Command("cooldown")]
+        [Cooldown(5, 10, CooldownBucketType.User)] //10 seconds cooldown per user after 5 uses
+        public async Task Cooldown(CommandContext ctx)
+        {
+            await ctx.Channel.SendMessageAsync("Cooldown test");
+        }
     }
 }

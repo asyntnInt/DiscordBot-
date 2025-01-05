@@ -37,6 +37,9 @@ namespace DiscordBot_Learning
             });
 
             Client.Ready += Client_Ready;
+            Client.MessageCreated += MessageCreatedHandler;
+            Client.VoiceStateUpdated += VoiceChannelHandler;
+
 
             var commandsconfig = new CommandsNextConfiguration()
             {
@@ -54,7 +57,20 @@ namespace DiscordBot_Learning
             await Task.Delay(-1);
         }
 
-        private static Task Client_Ready(DiscordClient sender, DSharpPlus.EventArgs.ReadyEventArgs args)
+        private static async Task VoiceChannelHandler(DiscordClient sender, DSharpPlus.EventArgs.VoiceStateUpdateEventArgs e)
+        {
+            if (e.Before == null && e.Channel.Name == "Create")
+        {
+                await e.Channel.SendMessageAsync($"{e.User.Mention} has joined the Voice chat");
+            }
+        }
+
+        private static async Task MessageCreatedHandler(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs e)
+        {
+            await e.Channel.SendMessageAsync("Event handler was triggered");
+        }
+
+        private static Task Client_Ready(DiscordClient sender, DSharpPlus.EventArgs.ReadyEventArgs e)
         {
             return Task.CompletedTask;
         }
