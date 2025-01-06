@@ -1,4 +1,5 @@
 ﻿using DiscordBot_Learning.Commands;
+using DiscordBot_Learning.Commands.SlashCmnds;
 using DiscordBot_Learning.Config;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
@@ -7,6 +8,7 @@ using DSharpPlus.CommandsNext.Exceptions;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.SlashCommands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,12 +55,13 @@ namespace DiscordBot_Learning
             };
 
             Commands = Client.UseCommandsNext(commandsconfig);
+            var slashCommandConfig = Client.UseSlashCommands();
 
             Commands.CommandErrored += CommandEventHandler;
 
             // Registering commands
-
             Commands.RegisterCommands<testCommands>();
+            slashCommandConfig.RegisterCommands<SlashBasics>();
 
             await Client.ConnectAsync();
             await Task.Delay(-1);

@@ -107,11 +107,11 @@ namespace DiscordBot_Learning.Commands
 
             //await ctx.Channel.SendMessageAsync(messageToGet.Result.Content);
 
-            if (messageToGet.Result.Content == "yes")
+            if (messageToGet.Result.Content.ToLower() == "yes")
             {
                 await ctx.Channel.SendMessageAsync($"{ctx.User.Mention} attempted to Thanos snap");
             }
-            else
+            else if (messageToGet.Result.Content.ToLower() == "no")
             {
                 await ctx.Channel.SendMessageAsync("procedure cancelled");
             }
