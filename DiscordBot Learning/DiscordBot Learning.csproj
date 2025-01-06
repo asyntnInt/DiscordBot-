@@ -146,7 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\SlashCmnds\SlashBasics.cs" />
-    <Compile Include="Commands\testCommands.cs" />
+    <Compile Include="Commands\PrefixCmnds\testCommands.cs" />
     <Compile Include="Config\JSONreader.cs" />
     <Compile Include="Other\CardSystem.cs" />
     <Compile Include="Program.cs" />
