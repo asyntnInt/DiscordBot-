@@ -51,8 +51,8 @@ namespace DiscordBot_Learning.Commands.SlashCmnds
             var slashEmbed = new DiscordEmbedBuilder()
             {
                 Title = "User Info",
-                Description = $"Username:   {user.Username}#{user.Discriminator}," +
-                $" Profile: {user.AvatarUrl}",
+                Description = $"Username: {user.Username}#{user.Discriminator} ",
+                ImageUrl = $"{user.AvatarUrl}",
                 Color = new DiscordColor(0x0000FF)
             };
             await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(slashEmbed));
