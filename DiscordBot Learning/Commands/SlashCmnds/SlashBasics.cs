@@ -4,6 +4,7 @@ using DSharpPlus.SlashCommands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,6 +40,21 @@ namespace DiscordBot_Learning.Commands.SlashCmnds
                 Color = new DiscordColor(0x00FF00)
             };
 
+            await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(slashEmbed));
+        }
+
+        [SlashCommand("user", "This slash command gets user info")]
+        public async Task UserInfo(InteractionContext ctx,
+            [Option("user", "The user you want to get info on")] DiscordUser user)
+        {
+            await ctx.DeferAsync();
+            var slashEmbed = new DiscordEmbedBuilder()
+            {
+                Title = "User Info",
+                Description = $"Username:   {user.Username}#{user.Discriminator}," +
+                $" Profile: {user.AvatarUrl}",
+                Color = new DiscordColor(0x0000FF)
+            };
             await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(slashEmbed));
         }
     }
