@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace DiscordBot_Learning.Commands
 {
     public class testCommands : BaseCommandModule
     {
+        
         //Format for ALL commands
         [Command("ping")]
         public async Task TestCommand(CommandContext ctx)
@@ -197,6 +199,24 @@ namespace DiscordBot_Learning.Commands
         public async Task Cooldown(CommandContext ctx)
         {
             await ctx.Channel.SendMessageAsync("Cooldown test");
+        }
+
+        [Command("help")]
+        public async Task Help(CommandContext ctx)
+        {
+            var commands = ctx.CommandsNext.RegisteredCommands;
+            var embed = new DiscordEmbedBuilder
+            {
+                Title = "Available Commands",
+                Color = DiscordColor.Azure
+            };
+
+            foreach (var command in commands)
+            {
+                embed.AddField(command.Key, command.Value.Description ?? "No description available");
+            }
+
+            await ctx.Channel.SendMessageAsync(embed: embed);
         }
     }
 }
