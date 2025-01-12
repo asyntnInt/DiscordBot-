@@ -12,50 +12,55 @@ namespace DiscordBot_Learning.Commands.SlashCmnds
 {
     public class SlashBasics : ApplicationCommandModule
     {
-        [SlashCommand("test", "this is a test")]
-        public async Task SlashTestCommand(InteractionContext ctx)
+        [SlashCommandGroup("utility", "Usefull Commands")]
+        public class GroupContainer : ApplicationCommandModule
         {
-            await ctx.DeferAsync(); // This is required to send a response later, do NOT use await ctx.CreateResponseAsync
-
-            var slashEmbed = new DiscordEmbedBuilder()
+            [SlashCommandGroup("user", "User Related Commands")]
+            public class SubGroupContainer : ApplicationCommandModule
             {
-                Title = "Hello World!",
-                Description = "This is a test command",
-                Color = new DiscordColor(0xFF00FF)
-            };
+                [SlashCommand("userinfo", "Get information about a user")]
+                public async Task UserInfo(InteractionContext ctx, [Option("user", "The user to get information about")] DiscordUser user = null)
+                {
+                    await ctx.DeferAsync();
+                    if (user == null)
+                    {
+                        user = ctx.User;
+                    }
+                    var embed = new DiscordEmbedBuilder()
+                        .WithTitle("User Information")
+                        .WithThumbnail(user.AvatarUrl)
+                        .AddField("Username", user.Username + "#" + user.Discriminator)
+                        .AddField("User ID", user.Id.ToString())
+                        .AddField("Is Bot", user.IsBot.ToString())
+                        .WithColor(DiscordColor.Gold);
 
-            await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(slashEmbed));
-        }
+                    //await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().AddEmbed(embed));
+                    await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(embed));
 
-        [SlashCommand("parameters", "This slash command allows parameters")]
-        public async Task SlashParametersCommand(InteractionContext ctx,
-            [Option("param1", "This is the first parameter")] string param1,
-            [Option("param2", "This is the second parameter")] string param2)
-        {
-            await ctx.DeferAsync();
-            var slashEmbed = new DiscordEmbedBuilder()
-            {
-                Title = "Parameters",
-                Description = $"Parameter 1: {param1}  Parameter 2: {param2}",
-                Color = new DiscordColor(0x00FF00)
-            };
+                }
 
-            await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(slashEmbed));
-        }
+                /*
+                [SlashCommand("infouser", "This slash command gets user info")]
+                public async Task UserInfo2(InteractionContext ctx,
+                [Option("user", "The user you want to get info on")] DiscordUser user)
+                {
+                    await ctx.DeferAsync();
 
-        [SlashCommand("user", "This slash command gets user info")]
-        public async Task UserInfo(InteractionContext ctx,
-            [Option("user", "The user you want to get info on")] DiscordUser user)
-        {
-            await ctx.DeferAsync();
-            var slashEmbed = new DiscordEmbedBuilder()
-            {
-                Title = "User Info",
-                Description = $"Username: {user.Username}#{user.Discriminator} ",
-                ImageUrl = $"{user.AvatarUrl}",
-                Color = new DiscordColor(0x0000FF)
-            };
-            await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(slashEmbed));
+                    var member = (DiscordMember)user; //gets the in server info of the user
+
+                    //var x = await ctx.Guild.GetMemberAsync(user.Id); find out what this does later
+
+                    var slashEmbed = new DiscordEmbedBuilder()
+                    {
+                        Title = "User Info",
+                        Description = $"Username: {user.Username}#{user.Discriminator}, " +
+                        $"Name: {member.Nickname}",
+                        Thumbnail = new DiscordEmbedBuilder.EmbedThumbnail { Url = user.AvatarUrl },
+                        Color = new DiscordColor(0x0000FF)
+                    };
+                    await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(slashEmbed));
+                }*/
+            }
         }
     }
 }
