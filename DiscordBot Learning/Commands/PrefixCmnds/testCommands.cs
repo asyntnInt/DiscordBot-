@@ -18,6 +18,7 @@ namespace DiscordBot_Learning.Commands
         
         //Format for ALL commands
         [Command("ping")]
+        [Description("Replies with hello and a mention")]
         public async Task TestCommand(CommandContext ctx)
         {
             await ctx.Channel.SendMessageAsync($"hello {ctx.User.Mention}");
@@ -31,6 +32,7 @@ namespace DiscordBot_Learning.Commands
         } */
 
         [Command("ban")]
+        [Description("Bans a user")]
         [RequireBotPermissions(DSharpPlus.Permissions.BanMembers)]
         [RequireUserPermissions(DSharpPlus.Permissions.BanMembers)]
         public async Task Ban(CommandContext ctx,
@@ -52,6 +54,7 @@ namespace DiscordBot_Learning.Commands
         }
 
         [Command("unban")]
+        [Description("Unbans a user")]
         [RequireBotPermissions(DSharpPlus.Permissions.Administrator)]
         [RequireUserPermissions(DSharpPlus.Permissions.Administrator)]
         public async Task Unban(CommandContext ctx,
@@ -75,6 +78,7 @@ namespace DiscordBot_Learning.Commands
 
 
         [Command("profile")]
+        [Description("Shows the profile picture of the user")]
         public async Task Profile(CommandContext ctx)
         {
             //One way of doing message embeds
@@ -99,6 +103,7 @@ namespace DiscordBot_Learning.Commands
         }
 
         [Command("thanosnap")]
+        [Description("Thanos snaps his fingers")]
         public async Task Interactivity(CommandContext ctx)
         {
             var interactivity = Program.Client.GetInteractivity();
@@ -122,6 +127,7 @@ namespace DiscordBot_Learning.Commands
 
         //reaction of a specific emoji
         [Command("react")]
+        [Description("Reacts to a message with a heart emoji")]
         public async Task ReactionCommand(CommandContext ctx) //DiscordMember member)
         {
             var emoji = DiscordEmoji.FromName(ctx.Client, ":heart:");
@@ -133,6 +139,7 @@ namespace DiscordBot_Learning.Commands
         }
 
         [Command("poll")]
+        [Description("Creates a poll with up to 4 options, 1/2/3/4/title")]
         [Cooldown(1, 60, CooldownBucketType.Channel)] //60 seconds cooldown per channel after 1 use
         public async Task Poll(CommandContext ctx, string option1, string option2, string option3, string option4, [RemainingText] string pollTitle)
         {
@@ -195,6 +202,7 @@ namespace DiscordBot_Learning.Commands
         }
 
         [Command("cooldown")]
+        [Description("Test command for cooldowns")]
         [Cooldown(1, 20, CooldownBucketType.User)] //x seconds cooldown per user after y uses
         public async Task Cooldown(CommandContext ctx)
         {
@@ -202,6 +210,7 @@ namespace DiscordBot_Learning.Commands
         }
 
         [Command("help")]
+        [Description("List all available commands")]
         public async Task Help(CommandContext ctx)
         {
             var commands = ctx.CommandsNext.RegisteredCommands;

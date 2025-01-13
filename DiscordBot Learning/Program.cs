@@ -1,4 +1,5 @@
 ﻿using DiscordBot_Learning.Commands;
+using DiscordBot_Learning.Commands.PrefixCmnds;
 using DiscordBot_Learning.Commands.SlashCmnds;
 using DiscordBot_Learning.Config;
 using DSharpPlus;
@@ -41,9 +42,11 @@ namespace DiscordBot_Learning
                 Timeout = TimeSpan.FromMinutes(2)
             });
 
+            //event handlers
             Client.Ready += Client_Ready;
             //Client.MessageCreated += MessageCreatedHandler;
             Client.VoiceStateUpdated += VoiceChannelHandler;
+            Client.ComponentInteractionCreated += Client_ComponentInteractionCreated;
 
 
             var commandsconfig = new CommandsNextConfiguration()
@@ -61,10 +64,36 @@ namespace DiscordBot_Learning
 
             // Registering commands
             Commands.RegisterCommands<testCommands>();
+            Commands.RegisterCommands<InteractionComponents>();
             slashCommandConfig.RegisterCommands<SlashBasics>();
 
             await Client.ConnectAsync();
             await Task.Delay(-1);
+        }
+
+
+        private static async Task Client_ComponentInteractionCreated(DiscordClient sender, DSharpPlus.EventArgs.ComponentInteractionCreateEventArgs args)
+        {
+            //this *does* work though, I think... also arge.Interaction.Data.CustomId == the button id, but it's quite inefficient
+            /*if (args != null) 
+            {
+                //await args.Interaction.CreateResponseAsync(InteractionResponseType.DeferredMessageUpdate);
+                await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent($"The button was clicked by {args.User.Mention}"));
+            }*/
+
+            //for specific buttons with custom id
+            switch (args.Interaction.Data.CustomId)
+            {
+                case "button1":
+                    await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent($"Button 1 was clicked by {args.User.Mention}"));
+                    break;
+                case "button2":
+                    await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent($"Button 2 was clicked by {args.User.Mention}"));
+                    break;
+                default:
+                    await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent($"The button was clicked by {args.User.Mention}"));
+                    break;
+            }
         }
 
         private static async Task CommandEventHandler(CommandsNextExtension sender, CommandErrorEventArgs e)
