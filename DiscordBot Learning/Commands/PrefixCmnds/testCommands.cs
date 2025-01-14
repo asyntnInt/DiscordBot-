@@ -1,21 +1,16 @@
-﻿using DiscordBot_Learning.Other;
+﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DiscordBot_Learning.Commands
 {
     public class testCommands : BaseCommandModule
     {
-        
+
         //Format for ALL commands
         [Command("ping")]
         [Description("Replies with hello and a mention")]
@@ -226,6 +221,16 @@ namespace DiscordBot_Learning.Commands
             }
 
             await ctx.Channel.SendMessageAsync(embed: embed);
+            
+            var button = new DiscordButtonComponent(DSharpPlus.ButtonStyle.Primary, "button1", "Support server");
+            var btnBuilder = new DiscordMessageBuilder()
+                .WithContent("Click the button to join the support server")
+                .AddComponents(new DiscordComponent[]
+                {
+                    new DiscordLinkButtonComponent("https://discord.gg/xuawqQuf3H", "Suppor Server!")
+                });
+            await ctx.Channel.SendMessageAsync(btnBuilder);
+
         }
     }
 }

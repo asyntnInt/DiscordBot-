@@ -92,6 +92,7 @@ namespace DiscordBot_Learning
                     break;
                 default:
                     await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent($"The button was clicked by {args.User.Mention}"));
+                    //await args.Interaction.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().WithContent($"The button was clicked by {args.User.Mention}"));
                     break;
             }
         }
