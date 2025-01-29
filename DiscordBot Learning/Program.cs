@@ -7,6 +7,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.CommandsNext.Exceptions;
 using DSharpPlus.Entities;
+using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
@@ -27,6 +28,15 @@ namespace DiscordBot_Learning
             var jsonreader = new JSONreader();
             await jsonreader.ReadJSON();
 
+
+            DiscordActivity activity = new DiscordActivity
+            {
+                //Name = "with the API",
+                Name = "!help",
+                //CustomStatus = true, //This will show the custom status //it is read only...
+                ActivityType = ActivityType.Playing // This will show the "Playing" status
+            };
+
             var discordConfig = new DiscordConfiguration()
             {
                 Intents = DiscordIntents.All,
@@ -43,8 +53,9 @@ namespace DiscordBot_Learning
             });
 
             //event handlers
-            Client.Ready += Client_Ready;
-            //Client.MessageCreated += MessageCreatedHandler;
+            //Client.Ready += async (sender, e) => await Client_Ready(sender, e); //I have absolutely no clue how this is different from the original, but it works.
+                //Client.MessageCreated += MessageCreatedHandler; // This causes spam
+            Client.Ready += async (Client, ReadyEventArgs) => await Client.UpdateStatusAsync(activity); //the event handler for the "playing !help" status
             Client.VoiceStateUpdated += VoiceChannelHandler;
             Client.ComponentInteractionCreated += Client_ComponentInteractionCreated;
 

@@ -145,6 +145,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\PrefixCmnds\helpCmnd.cs" />
     <Compile Include="Commands\PrefixCmnds\InteractionComponents.cs" />
     <Compile Include="Commands\SlashCmnds\SlashBasics.cs" />
     <Compile Include="Commands\PrefixCmnds\testCommands.cs" />

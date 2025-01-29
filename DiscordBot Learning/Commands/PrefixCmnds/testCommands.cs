@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DiscordBot_Learning.Commands
 {
+
     public class testCommands : BaseCommandModule
     {
 
@@ -212,7 +213,11 @@ namespace DiscordBot_Learning.Commands
             var embed = new DiscordEmbedBuilder
             {
                 Title = "Available Commands",
-                Color = DiscordColor.Azure
+                Color = DiscordColor.Azure,
+                Footer = new DiscordEmbedBuilder.EmbedFooter
+                {
+                    Text = "Use /help for slash commands"
+                }
             };
 
             foreach (var command in commands)

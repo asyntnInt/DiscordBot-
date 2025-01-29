@@ -17,6 +17,10 @@ namespace DiscordBot_Learning.Commands.SlashCmnds
         [SlashCommand("help", "List all available slash commands")]
         public async Task Help(InteractionContext ctx)
         {
+            if (ctx == null) //makes sure theres a context and nothing missing
+            {
+                return;
+            }
             await ctx.DeferAsync();
 
             var commands = ctx.Client.GetSlashCommands().RegisteredCommands;
